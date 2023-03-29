@@ -9,11 +9,19 @@ const lyrics: string[] = [
  "Never gonna tell a lie and hurt you ❤️",
 ];
 
+interface TestResponse {
+  uptime: number;
+  message: string;
+  timestamp: string;
+}
+
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponse<{data: string}>
+  res: NextApiResponse<TestResponse>
 ) {
   res.status(200).json({
-    data: lyrics[Math.floor(Math.random() * lyrics.length)]
+    uptime: process.uptime(),
+    message: lyrics[Math.floor(Math.random() * lyrics.length)],
+    timestamp: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')
   });
 }
