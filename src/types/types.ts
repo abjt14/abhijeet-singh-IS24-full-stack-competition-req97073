@@ -7,3 +7,9 @@ export interface Product {
   startDate: string;
   methodology: "Agile" | "Waterfall";
 }
+
+export interface APIProduct extends Product {
+  created_at: string | null;
+  updated_at: string | null;
+  deleted_at: string | null;
+}
