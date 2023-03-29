@@ -16,6 +16,7 @@ body {
 
 body {
   margin: 0;
+  @apply bg-pampas-100
 }
 
 a {
