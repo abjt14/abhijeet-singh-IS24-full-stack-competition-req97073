@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Product } from "@/types/types";
 import DeleteModal from "@/components/index-components/Modals/DeleteModal";
-import EditModel from "./Modals/EditModal";
+import EditModal from "./Modals/EditModal";
 
 interface TableProps {
   state: Product[];
@@ -28,12 +28,12 @@ export default function Table({ state, fetchHelper}: TableProps) {
 
   return (
     <>
-      <div className="flex flex-col overflow-x-auto">
-        <div className="sm:-mx-6 lg:-mx-8">
-          <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+      <div className="flex flex-col overflow-x-auto my-2 rounded-md border-x border-neutral-300 md:border-0">
+        <div className="">
+          <div className="inline-block min-w-full">
             <div className="overflow-x-auto">
-              <table className="min-w-full text-left text-sm font-light border-separate border-spacing-0">
-                <thead className="font-medium text-green-kelp-800">
+              <table className="min-w-full text-left text-sm font-normal border-separate border-spacing-0">
+                <thead className="font-semibold text-green-kelp-800">
                   <tr>
                     {
                       columns.map((column, index) => (
@@ -128,8 +128,7 @@ export default function Table({ state, fetchHelper}: TableProps) {
       }
       {
         product && (
-          <EditModel
-            type="edit"
+          <EditModal
             data={product}
             fetchHelper={fetchHelper}
             isOpen={isOpenEdit}

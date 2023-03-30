@@ -1,4 +1,4 @@
-import AddProjectButton from "@/components/index-components/AddProjectButton";
+import AddProductButton from "@/components/index-components/AddProductButton";
 import Heading from "@/components/index-components/Heading";
 import Search from "@/components/index-components/Search";
 import Table from "@/components/index-components/Table";
@@ -11,45 +11,23 @@ export default function Home() {
   const [state, dispatch] = useReducer(productReducer, []);
 
   useEffect(() => {
-    fetchData();
+    fetchProductData();
   }, []);
 
   useEffect(() => {
     setProductCount(state.length);
   }, [state]);
 
-  async function fetchData() {
+  async function fetchProductData() {
     await fetch('http://localhost:3000/api/products')
       .then(res => res.json())
       .then(data => {
         setProductCount(data.data.length);
-        handleSetProduct(data.data);
+        dispatch({
+          type: 'set',
+          payload: data.data
+        });
       })
-  }
-
-  function handleSetProduct(product: Product[]) {
-    dispatch({
-      type: 'set',
-      payload: product
-    });
-  }
-  function handleAddProduct(product: Product) {
-    dispatch({
-      type: 'add',
-      payload: product
-    });
-  }
-  function handleUpdateProduct(product: Product) {
-    dispatch({
-      type: 'update',
-      payload: product
-    });
-  }
-  function handleDeleteProduct(productId: string) {
-    dispatch({
-      type: 'delete',
-      payload: productId
-    });
   }
 
   interface FetchHelperProps {
@@ -77,7 +55,10 @@ export default function Home() {
           if (payload.status === 'error') {
             toast.error(payload.message);
           } else {
-            handleAddProduct(data as Product);
+            dispatch({
+              type: 'add',
+              payload: data as Product
+            });
             toast.success(payload.message);
           }
         })
@@ -99,7 +80,10 @@ export default function Home() {
           if (payload.status === 'error') {
             toast.error(payload.message);
           } else {
-            handleUpdateProduct(data as Product);
+            dispatch({
+              type: 'update',
+              payload: data as Product
+            });
             toast.success(payload.message);
           }
         })
@@ -117,7 +101,10 @@ export default function Home() {
         })
         .then(res => res.json())
         .then(payload => {
-          handleDeleteProduct(data as string);
+          dispatch({
+            type: 'delete',
+            payload: data as string
+          });
           toast.success(payload.message);
         })
         .catch(err => console.error(err));
@@ -160,18 +147,17 @@ export default function Home() {
     <div
       className="content max-w-screen-lg w-full mx-auto">
       <Heading productCount={productCount} />
-      <div className="flex justify-between">
-        <Search />
-        <AddProjectButton state={state} fetchHelper={fetchHelper} />
-      </div>
-      {
-        state.length > 0 ?
-        <Table
-          state={state}
-          fetchHelper={fetchHelper}
+      <div className="flex justify-between gap-2 items-end flex-col sm:flex-row">
+        <Search
+          dispatch={dispatch}
+          fetchProductData={fetchProductData}
         />
-        : null
-      }
+        <AddProductButton fetchHelper={fetchHelper} />
+      </div>
+      <Table
+        state={state}
+        fetchHelper={fetchHelper}
+      />
       <Toaster richColors closeButton expand={true} />
     </div>
   )
