@@ -1,6 +1,6 @@
 import { apiDataHelper } from "@/helpers/apiDataHelper";
 import { responses } from "@/helpers/responses";
-import { generateID, generateRandomDate } from "@/helpers/utils";
+import { ShuffleArray, generateID, generateRandomDate } from "@/helpers/utils";
 import { developers } from "@/static-data/developers";
 import { productOwners } from "@/static-data/productOwners";
 import { productNames } from "@/static-data/productNames";
@@ -38,11 +38,13 @@ function datagenerator(productCount: number): Product[] {
 
   let data: Product[] = [];
 
+  const shuffledProductNames = ShuffleArray(productNames);
+
   [...Array(productCount).keys()].forEach((i) => {
     let randomDeveloperOffset: number = Math.floor(Math.random() * developers.length);
     randomDeveloperOffset = randomDeveloperOffset > developers.length - 5 ? developers.length - 5 : randomDeveloperOffset;
 
-    let randomName = productNames[Math.floor(Math.random() * productNames.length)];
+    let randomName = shuffledProductNames[i] as string;
 
     let randomProduct: Product = {
       productId: generateID(randomName),

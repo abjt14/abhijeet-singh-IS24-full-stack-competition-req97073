@@ -29,3 +29,14 @@ interface GenerateRandomDateParams {
 export function generateRandomDate({start, end}: GenerateRandomDateParams) {
   return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())).toISOString().split('T')[0];
 }
+
+export function ShuffleArray(array: unknown[]) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+
+  return array;
+}
