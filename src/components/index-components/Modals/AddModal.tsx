@@ -8,15 +8,15 @@ import InputText from '../FormElements/InputText';
 import Select from '../FormElements/Select';
 import InputDate from '../FormElements/InputDate';
 import { generateID } from '@/helpers/utils';
+import SelectListBox from '../FormElements/SelectListBox';
 
-interface AddModelProps {
-  type: 'add' | 'edit';
+interface AddModalProps {
   fetchHelper: Function;
   isOpen: boolean;
   setIsOpen: (args: boolean) => void;
 }
 
-export default function AddModel({ type, fetchHelper, isOpen, setIsOpen }: AddModelProps) {
+export default function AddModal({ fetchHelper, isOpen, setIsOpen }: AddModalProps) {
   const [productName, setProductName] = useState<string>('');
   const [productOwnerName, setProductOwnerName] = useState<string>(productOwners[0]);
   const [developers, setDevelopers] = useState<string[]>([]);
@@ -25,6 +25,12 @@ export default function AddModel({ type, fetchHelper, isOpen, setIsOpen }: AddMo
   const [methodology, setMethodology] = useState<'Agile' | 'Waterfall'>('Agile');
 
   const methodologyList = ['Agile', 'Waterfall'];
+
+  function handleSetDeveloper(value: string[]) {
+    if (value.length <= 5) {
+      setDevelopers(value);
+    }
+  }
 
   async function saveProduct(e: FormEvent) {
     e.preventDefault();
@@ -44,9 +50,15 @@ export default function AddModel({ type, fetchHelper, isOpen, setIsOpen }: AddMo
   }
 
   useEffect(() => {
-    console.log('productOwnerName', productOwnerName);
-  }, [productOwnerName])
-
+    if (!isOpen) {
+      setProductName('');
+      setProductOwnerName(productOwners[0]);
+      setDevelopers([]);
+      setScrumMasterName(scrumMasters[0]);
+      setStartDate('');
+      setMethodology('Agile');
+    }
+  }, [isOpen]);
 
   async function handleSaveProduct(body: Product) {
     await fetchHelper({
@@ -87,13 +99,12 @@ export default function AddModel({ type, fetchHelper, isOpen, setIsOpen }: AddMo
                 options={scrumMasters}
               />
             </div>
-            <div className="flex-1 flex flex-col gap-2 mb-6">
+            {/* <div className="flex-1 flex flex-col gap-2 mb-6">
               <label htmlFor="developers" className="text-xs font-semibold text-green-kelp-900">Developers</label>
               <select
                 name="developers"
                 id="developers"
                 className="rounded-md px-4 py-2 text-sm text-green-kelp-900 bg-white border border-green-kelp-700 outline-green-kelp-900"
-                data-te-select-init
                 required={true}
                 multiple
                 value={developers}
@@ -103,6 +114,13 @@ export default function AddModel({ type, fetchHelper, isOpen, setIsOpen }: AddMo
                   <option key={index} value={developer}>{developer}</option>
                 ))}
               </select>
+            </div> */}
+            <div className="flex-1 flex flex-col gap-2 mb-6">
+              <SelectListBox
+                options={developersData}
+                selected={developers.length === 0 ? [developersData[0]] : developers}
+                setSelected={handleSetDeveloper}
+              />
             </div>
             <div className="flex gap-2">
               <Select

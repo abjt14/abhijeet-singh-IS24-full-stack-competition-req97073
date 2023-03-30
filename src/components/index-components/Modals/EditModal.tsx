@@ -1,6 +1,6 @@
 import { Product } from '@/types/types';
 import { Dialog } from '@headlessui/react';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { productOwners } from "@/static-data/productOwners";
 import { scrumMasters } from '@/static-data/scrumMasters';
 import { developers as developersData } from '@/static-data/developers';
@@ -8,21 +8,29 @@ import InputText from '../FormElements/InputText';
 import Select from '../FormElements/Select';
 import InputDate from '../FormElements/InputDate';
 
-interface EditModelProps {
-  type: 'add' | 'edit';
+interface EditModalProps {
   data: Product;
   fetchHelper: Function;
   isOpen: boolean;
   setIsOpen: (args: boolean) => void;
 }
 
-export default function EditModel({ type, data, fetchHelper, isOpen, setIsOpen }: EditModelProps) {
+export default function EditModal({ data, fetchHelper, isOpen, setIsOpen }: EditModalProps) {
   const [productName, setProductName] = useState<string>(data.productName);
   const [productOwnerName, setProductOwnerName] = useState<string>(data.productOwnerName);
   const [developers, setDevelopers] = useState<string[]>(data.developers);
   const [scrumMasterName, setScrumMasterName] = useState<string>(data.scrumMasterName);
   const [startDate, setStartDate] = useState<string>(data.startDate);
   const [methodology, setMethodology] = useState<'Agile' | 'Waterfall'>(data.methodology);
+
+  useEffect(() => {
+    setProductName(data.productName);
+    setProductOwnerName(data.productOwnerName);
+    setDevelopers(data.developers);
+    setScrumMasterName(data.scrumMasterName);
+    setStartDate(data.startDate);
+    setMethodology(data.methodology);
+  }, [data]);
 
   const methodologyList = ['Agile', 'Waterfall'];
 
@@ -88,7 +96,6 @@ export default function EditModel({ type, data, fetchHelper, isOpen, setIsOpen }
                 name="developers"
                 id="developers"
                 className="rounded-md px-4 py-2 text-sm text-green-kelp-900 bg-white border border-green-kelp-700 outline-green-kelp-900"
-                data-te-select-init
                 required={true}
                 multiple
                 value={developers}
