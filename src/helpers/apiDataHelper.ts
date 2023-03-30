@@ -4,13 +4,16 @@ import fs from 'fs';
 let products: APIProduct[] = require('/data/products.json');
 
 export const apiDataHelper = {
-    set: SetProducts,
-    getAll: () => products.filter((product: APIProduct) => product.deleted_at === null),
-    create: createProduct,
-    update: updateProduct,
-    delete: deleteProduct,
-    checkProductIdExists,
-    checkProductNameExists
+  set: SetProducts,
+  getAll: getAllProducts,
+  get: getProduct,
+  create: createProduct,
+  update: updateProduct,
+  delete: deleteProduct,
+  checkProductIdExists,
+  checkProductNameExists,
+  SearchByScrumMaster,
+  SearchByDeveloper
 };
 
 function SetProducts(data: Product[]) {
@@ -19,6 +22,14 @@ function SetProducts(data: Product[]) {
   });
 
   saveData();
+}
+
+function getAllProducts() {
+  return products.filter((product: APIProduct) => product.deleted_at === null);
+}
+
+function getProduct(productId: string) {
+  return products.find((product: APIProduct) => product.productId === productId);
 }
 
 function createProduct(data: Product) {
@@ -51,11 +62,50 @@ function deleteProduct(productId: string) {
 }
 
 function checkProductIdExists(productId: string): boolean {
-  return products.filter((product: APIProduct) => product.deleted_at === null).some((product: Product) => product.productId === productId);
+  return products.filter(
+    (product: APIProduct) => product.deleted_at === null
+  )
+  .some(
+    (product: Product) => product.productId === productId
+  );
 }
 
-function checkProductNameExists(productName: string): boolean {
-  return products.filter((product: APIProduct) => product.deleted_at === null).some((product: Product) => product.productName === productName);
+interface CheckProductNameExistsParams {
+  productName: string;
+  productId: string | null;
+}
+function checkProductNameExists({ productName, productId }: CheckProductNameExistsParams): boolean {
+  if (productId) {
+    return products.filter(
+      (product: APIProduct) => product.deleted_at === null
+    )
+    .some(
+      (product: Product) => (product.productName === productName) && (product.productId !== productId)
+    );
+  } else {
+    return products.filter(
+      (product: APIProduct) => product.deleted_at === null
+    )
+    .some(
+      (product: Product) => product.productName === productName
+    );
+  }
+}
+
+function SearchByScrumMaster(scrumMasterName: string) {
+  return products.filter(
+    (product: APIProduct) => product.deleted_at === null &&
+    product.scrumMasterName.toLowerCase().includes(scrumMasterName)
+  );
+}
+
+function SearchByDeveloper(developerName: string) {
+  return products.filter(
+    (product: APIProduct) => product.deleted_at === null &&
+    product.developers.some(
+      (developer: string) => developer.toLowerCase().includes(developerName)
+    )
+  );
 }
 
 // private helper functions
