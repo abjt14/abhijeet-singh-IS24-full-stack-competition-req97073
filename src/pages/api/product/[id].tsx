@@ -14,13 +14,47 @@ export default async function handler(
   const productId = (query.id as string).toUpperCase();
 
   switch (method) {
+    case 'GET':
+      try {
+        const checkIdExists = apiDataHelper.checkProductIdExists(productId);
+
+        if(!checkIdExists) {
+          res.status(500).json({
+            status: 'error',
+            error: responses.getProduct.validator.error,
+            message: responses.getProduct.validator.errorMessage
+          });
+
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+
+        const data = apiDataHelper.get(productId);
+
+        res.status(200).json({
+          status: 'success',
+          data: data
+        });
+
+      } catch (error) {
+
+        res.status(500).json({
+          status: 'error',
+          error: error,
+          message: responses.getProduct.schema.errorMessage
+        });
+
+      }
+      break;
     case 'POST':
       try {
 
         let { body } = req;
 
         const data = addProductSchema.parse(processBody(body));
-        const checkExists = apiDataHelper.checkProductNameExists(data.productName);
+        const checkExists = apiDataHelper.checkProductNameExists({
+          productName: data.productName,
+          productId: null
+        });
 
         if(checkExists) {
           res.status(500).json({
@@ -51,11 +85,9 @@ export default async function handler(
       break;
     case 'PUT':
       try {
-        let { body } = req;
+        const checkIdExists = apiDataHelper.checkProductIdExists(productId);
 
-        const checkExists = apiDataHelper.checkProductIdExists(productId);
-
-        if(!checkExists) {
+        if(!checkIdExists) {
           res.status(500).json({
             status: 'error',
             error: responses.updateProduct.validator.error,
@@ -65,7 +97,24 @@ export default async function handler(
           throw new Error(`HTTP error! status: ${res.status}`);
         }
 
+
+        let { body } = req;
+
         const data = updateProductSchema.parse(processBody(body));
+        const checkNameExists = apiDataHelper.checkProductNameExists({
+          productName: data.productName,
+          productId: productId
+        });
+
+        if(checkNameExists) {
+          res.status(500).json({
+            status: 'error',
+            error: responses.updateProduct.validator.error2,
+            message: responses.updateProduct.validator.errorMessage2
+          });
+
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
 
         apiDataHelper.update(data as Product);
 
@@ -115,7 +164,7 @@ export default async function handler(
       }
       break;
     default:
-      res.setHeader('Allow', ['PUT', 'DELETE'])
+      res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE'])
       res.status(405).end(`Method ${method} Not Allowed`)
   }
 }
