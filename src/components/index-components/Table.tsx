@@ -3,24 +3,32 @@ import { Product } from "@/types/types";
 import DeleteModal from "@/components/index-components/Modals/DeleteModal";
 import EditModal from "./Modals/EditModal";
 
+// defines the type of the props for the Table component
 interface TableProps {
   state: Product[];
   fetchHelper: Function;
 }
 
 export default function Table({ state, fetchHelper}: TableProps) {
+  // state variable for opening and closing the edit modal
   const [isOpenEdit, setIsOpenEdit] = useState(false);
+  // state variable for opening and closing the delete modal
   const [isOpenDelete, setIsOpenDelete] = useState(false);
+  // state variable for the product id
   const [productId, setProductId] = useState('');
+  // state variable for the product name
   const [productName, setProductname] = useState('');
+  // state variable for the product data for edit modal
   const [product, setProduct] = useState<Product>();
 
+  // handle deleting a product
   function handleDeleteProduct(productId: string, productName: string) {
     setProductId(productId);
     setIsOpenDelete(true);
     setProductname(productName);
   }
 
+  // handle editing a product
   function handleEditProduct(data: Product) {
     setProduct(data);
     setIsOpenEdit(true);
@@ -56,7 +64,7 @@ export default function Table({ state, fetchHelper}: TableProps) {
                 </thead>
                 <tbody>
                   {
-                    state.map((product, index) => (
+                    state.length > 0 ? state.map((product, index) => (
                       <tr
                         key={index}
                         className="items-start"
@@ -91,15 +99,15 @@ export default function Table({ state, fetchHelper}: TableProps) {
                           ))
                         }
                         <td className="px-3 py-2 align-top border-[0.5px] first:border-l last:border-r border-neutral-300">
-                          <div className="flex items-center space-x-4 text-sm">
+                          <div className="flex items-center gap-3 text-sm">
                             <button
-                              className="text-green-kelp-600 hover:text-green-kelp-900"
+                              className="py-1 px-2 rounded-md bg-pampas-200 text-green-kelp-600 transition-all duration-75 hover:text-green-kelp-900 hover:bg-pampas-300"
                               onClick={() => handleEditProduct(product)}
                             >
                               Edit
                             </button>
                             <button
-                              className="text-red-600 hover:text-red-900"
+                              className="py-1 px-2 rounded-md bg-red-200 text-red-600 hover:text-red-900 hover:bg-red-300"
                               onClick={() => handleDeleteProduct(product.productId, product.productName)}
                             >
                               Delete
@@ -107,7 +115,18 @@ export default function Table({ state, fetchHelper}: TableProps) {
                           </div>
                         </td>
                       </tr>
-                    ))
+                    )) : (
+                      <tr>
+                        <td
+                          colSpan={columns.length + 1}
+                          className="px-3 py-2 align-top border-[0.5px] first:border-l last:border-r border-neutral-300 rounded-b-md"
+                        >
+                          <div className="flex items-center justify-center space-x-2">
+                            <span className="text-sm text-neutral-500">no products found</span>
+                          </div>
+                        </td>
+                      </tr>
+                    )
                   }
                 </tbody>
               </table>
