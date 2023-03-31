@@ -3,7 +3,7 @@ This is my submission for an assignment project for the IS-24 Full Stack Develop
 
 ## BC Gov | IMB | Product Catalog
 
-<img src="https://raw.githubusercontent.com/abjt14/abhijeet-singh-IS24-full-stack-competition-req97073/main/public/screenshots/main.webp?token=GHSAT0AAAAAAB75FUQVRZVA4H2J2UG3RUAGZBGJT2Q" width=50% height=50%>
+<img src="https://raw.githubusercontent.com/abjt14/abhijeet-singh-IS24-full-stack-competition-req97073/main/public/screenshots/main.webp?token=GHSAT0AAAAAAB75FUQVRZVA4H2J2UG3RUAGZBGJT2Q" width=100% height=100%>
 
 ## Getting Started
 
@@ -13,7 +13,9 @@ Install the dependencies and run the development server:
 ```bash
 npm i && npm run dev
 ```
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result. API Docs are available at [http://localhost:3000/api-docs](http://localhost:3000/api-docs).
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+API Docs are available at [http://localhost:3000/api-docs](http://localhost:3000/api-docs).
 
 Reset the database by running this API:
 ```
