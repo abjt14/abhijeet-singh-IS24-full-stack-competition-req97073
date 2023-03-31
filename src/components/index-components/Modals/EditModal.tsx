@@ -5,9 +5,10 @@ import { productOwners } from "@/static-data/productOwners";
 import { scrumMasters } from '@/static-data/scrumMasters';
 import { developers as developersData } from '@/static-data/developers';
 import InputText from '../FormElements/InputText';
-import Select from '../FormElements/Select';
 import InputDate from '../FormElements/InputDate';
+import ListBox from '../FormElements/ListBox';
 
+// defines the type of the props for the AddModal component
 interface EditModalProps {
   data: Product;
   fetchHelper: Function;
@@ -16,6 +17,7 @@ interface EditModalProps {
 }
 
 export default function EditModal({ data, fetchHelper, isOpen, setIsOpen }: EditModalProps) {
+  // state variables for the product data
   const [productName, setProductName] = useState<string>(data.productName);
   const [productOwnerName, setProductOwnerName] = useState<string>(data.productOwnerName);
   const [developers, setDevelopers] = useState<string[]>(data.developers);
@@ -23,6 +25,7 @@ export default function EditModal({ data, fetchHelper, isOpen, setIsOpen }: Edit
   const [startDate, setStartDate] = useState<string>(data.startDate);
   const [methodology, setMethodology] = useState<'Agile' | 'Waterfall'>(data.methodology);
 
+  // update the state variables when the data changes
   useEffect(() => {
     setProductName(data.productName);
     setProductOwnerName(data.productOwnerName);
@@ -32,11 +35,22 @@ export default function EditModal({ data, fetchHelper, isOpen, setIsOpen }: Edit
     setMethodology(data.methodology);
   }, [data]);
 
+  // defines the methodology options for the listbox
   const methodologyList = ['Agile', 'Waterfall'];
 
+  // sets the developers value if the length is less than 5
+  function handleSetDeveloper(value: string[]) {
+    if (value.length <= 5) {
+      setDevelopers(value);
+    }
+  }
+
+  // handle the save product
   async function saveProduct(e: FormEvent) {
+    // prevent the default form submission
     e.preventDefault();
 
+    // define the body of the request
     const body: Product = {
       productId: data.productId,
       productName: productName,
@@ -47,10 +61,14 @@ export default function EditModal({ data, fetchHelper, isOpen, setIsOpen }: Edit
       methodology: methodology
     }
 
+    // call the handleSaveProduct function
     await handleSaveProduct(body);
+
+    // close the modal
     setIsOpen(false);
   }
 
+  // handle the save product request
   async function handleSaveProduct(body: Product) {
     await fetchHelper({
       method: 'PUT',
@@ -70,6 +88,7 @@ export default function EditModal({ data, fetchHelper, isOpen, setIsOpen }: Edit
               <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
             </svg>
           </Dialog.Title>
+          <p className="text-xs text-red-700 mb-4">All fields are required.</p>
           <form onSubmit={(e) => saveProduct(e)}>
             <InputText
               value={productName}
@@ -77,41 +96,36 @@ export default function EditModal({ data, fetchHelper, isOpen, setIsOpen }: Edit
               label="Name"
             />
             <div className="flex gap-2">
-              <Select
-                selected={productOwnerName}
-                setter={setProductOwnerName}
+              <ListBox
+                multiple={false}
                 label="Owner"
                 options={productOwners}
+                selected={productOwnerName}
+                setSelected={setProductOwnerName}
               />
-              <Select
-                selected={scrumMasterName}
-                setter={setScrumMasterName}
+              <ListBox
+                multiple={false}
                 label="Scrum Master"
                 options={scrumMasters}
+                selected={scrumMasterName}
+                setSelected={setScrumMasterName}
               />
             </div>
-            <div className="flex-1 flex flex-col gap-2 mb-6">
-              <label htmlFor="developers" className="text-xs font-semibold text-green-kelp-900">Developers</label>
-              <select
-                name="developers"
-                id="developers"
-                className="rounded-md px-4 py-2 text-sm text-green-kelp-900 bg-white border border-green-kelp-700 outline-green-kelp-900"
-                required={true}
-                multiple
-                value={developers}
-                onChange={(e) => setDevelopers(Array.from(e.target.selectedOptions, (option) => option.value))}
-              >
-                {developersData.map((person, index) => (
-                  <option key={index} value={person}>{person}</option>
-                ))}
-              </select>
-            </div>
+            <ListBox
+              multiple={true}
+              label="Developers"
+              options={developersData}
+              selected={developers.length === 0 ? [developersData[0]] : developers}
+              setSelected={handleSetDeveloper}
+            />
+            <p className="text-xs text-neutral-700 mb-4 -mt-5">You can assign 1 to 5 developers per product.</p>
             <div className="flex gap-2">
-              <Select
-                selected={methodology}
-                setter={setMethodology}
+              <ListBox
+                multiple={false}
                 label="Methodology"
                 options={methodologyList}
+                selected={methodology}
+                setSelected={setMethodology}
               />
               <InputDate
                 value={startDate}
