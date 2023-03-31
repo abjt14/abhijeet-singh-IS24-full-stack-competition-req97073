@@ -3,8 +3,7 @@ This is my submission for an assignment project for the IS-24 Full Stack Develop
 
 ## BC Gov | IMB | Product Catalog
 
-<img src="https://raw.githubusercontent.com/abjt14/abhijeet-singh-IS24-full-stack-competition-req97073/main/public/screenshots/main.webp" width=50% height=50%>
-
+<img src="https://raw.githubusercontent.com/abjt14/abhijeet-singh-IS24-full-stack-competition-req97073/main/public/screenshots/main.webp?token=GHSAT0AAAAAAB75FUQVRZVA4H2J2UG3RUAGZBGJT2Q" width=50% height=50%>
 
 ## Getting Started
 
