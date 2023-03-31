@@ -1,0 +1,541 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "BC IMB | Product Catalogue API",
+    "description": "An API that allows the BC Gov Ministry of Citizen's Information Management Branch to manage their Product catalog of modern web applications",
+    "contact": {
+      "name": "Abhijeet Singh"
+    },
+    "license": {
+      "name": "Mozilla Public License Version 2.0"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/api",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "GET /health",
+        "operationId": "health",
+        "responses": {
+          "200": {
+            "description": "returns the server health status",
+            "schema": {
+              "$ref": "#/definitions/HealthResponse"
+            }
+          },
+          "503": {
+            "description": "returns the error",
+            "schema": {
+              "$ref": "#/definitions/HealthResponse"
+            }
+          }
+        },
+        "tags": [
+          "Generic"
+        ]
+      }
+    },
+    "/products": {
+      "get": {
+        "summary": "GET /products",
+        "operationId": "getProducts",
+        "responses": {
+          "200": {
+            "description": "returns the list of products",
+            "schema": {
+              "$ref": "#/definitions/ProductsResponse"
+            }
+          },
+          "500": {
+            "description": "returns the error",
+            "schema": {
+              "$ref": "#/definitions/ProductsResponse"
+            }
+          }
+        },
+        "tags": [
+          "Generic"
+        ]
+      }
+    },
+    "/product/{id}": {
+      "get": {
+        "summary": "GET /product/{id}",
+        "operationId": "getProduct",
+        "responses": {
+          "200": {
+            "description": "returns the product details",
+            "schema": {
+              "$ref": "#/definitions/ProductGETResponse"
+            }
+          },
+          "500": {
+            "description": "returns the error",
+            "schema": {
+              "$ref": "#/definitions/ProductGETResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          }
+        ],
+        "tags": [
+          "Product"
+        ]
+      },
+      "post": {
+        "summary": "POST /product/{id}",
+        "operationId": "addProduct",
+        "responses": {
+          "200": {
+            "description": "adds a new product",
+            "schema": {
+              "$ref": "#/definitions/ProductPOSTResponse"
+            }
+          },
+          "500": {
+            "description": "returns the error",
+            "schema": {
+              "$ref": "#/definitions/ProductPOSTResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          }
+        ],
+        "tags": [
+          "Product"
+        ]
+      },
+      "put": {
+        "summary": "PUT /product/{id}",
+        "operationId": "updateProduct",
+        "responses": {
+          "200": {
+            "description": "updates an existing product",
+            "schema": {
+              "$ref": "#/definitions/ProductPUTResponse"
+            }
+          },
+          "500": {
+            "description": "returns the error",
+            "schema": {
+              "$ref": "#/definitions/ProductPUTResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          }
+        ],
+        "tags": [
+          "Product"
+        ]
+      },
+      "delete": {
+        "summary": "DELETE /product/{id}",
+        "operationId": "deleteProduct",
+        "responses": {
+          "200": {
+            "description": "deletes an existing product",
+            "schema": {
+              "$ref": "#/definitions/ProductDELETEResponse"
+            }
+          },
+          "500": {
+            "description": "returns the error",
+            "schema": {
+              "$ref": "#/definitions/ProductDELETEResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          }
+        ],
+        "tags": [
+          "Product"
+        ]
+      }
+    },
+    "/search/scrummaster/{query}": {
+      "get": {
+        "summary": "GET /search/scrummaster/{query}",
+        "operationId": "searchByScrumMaster",
+        "responses": {
+          "200": {
+            "description": "finds the matching scrum master and returns all their products",
+            "schema": {
+              "$ref": "#/definitions/SearchResponse"
+            }
+          },
+          "500": {
+            "description": "returns the error",
+            "schema": {
+              "$ref": "#/definitions/SearchResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "query",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          }
+        ],
+        "tags": [
+          "Search"
+        ]
+      }
+    },
+    "/search/developer/{query}": {
+      "get": {
+        "summary": "GET /search/developer/{query}",
+        "operationId": "searchByDeveloper",
+        "responses": {
+          "200": {
+            "description": "finds the matching developer and returns all their products",
+            "schema": {
+              "$ref": "#/definitions/SearchResponse"
+            }
+          },
+          "500": {
+            "description": "returns the error",
+            "schema": {
+              "$ref": "#/definitions/SearchResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "query",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "string"
+          }
+        ],
+        "tags": [
+          "Search"
+        ]
+      }
+    },
+    "/generatedata": {
+      "get": {
+        "summary": "GET /generatedata",
+        "operationId": "generateData",
+        "responses": {
+          "200": {
+            "description": "generates sample data",
+            "schema": {
+              "$ref": "#/definitions/GenerateDataResponse"
+            }
+          },
+          "500": {
+            "description": "returns the error",
+            "schema": {
+              "$ref": "#/definitions/GenerateDataResponse"
+            }
+          }
+        },
+        "tags": [
+          "Generic"
+        ]
+      }
+    },
+    "/test": {
+      "get": {
+        "summary": "GET /test",
+        "operationId": "test",
+        "responses": {
+          "200": {
+            "description": "returns a random lyric from Rick Astley's Never Gonna Give You Up",
+            "schema": {
+              "$ref": "#/definitions/TestResponse"
+            }
+          },
+          "500": {
+            "description": "returns the error",
+            "schema": {
+              "$ref": "#/definitions/TestResponse"
+            }
+          }
+        },
+        "tags": [
+          "Generic"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "HealthResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "format": "string"
+        },
+        "message": {
+          "type": "string",
+          "format": "string"
+        },
+        "uptime": {
+          "type": "number",
+          "format": "number"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    },
+    "ProductsResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "format": "string"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Product"
+          }
+        },
+        "message": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    },
+    "Product": {
+      "type": "object",
+      "properties": {
+        "productId": {
+          "type": "string",
+          "format": "string"
+        },
+        "productName": {
+          "type": "string",
+          "format": "string"
+        },
+        "productOwnerName": {
+          "type": "string",
+          "format": "string"
+        },
+        "scrumMaster": {
+          "type": "string",
+          "format": "string"
+        },
+        "developers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "string"
+          }
+        },
+        "startDate": {
+          "type": "string",
+          "format": "string"
+        },
+        "methodology": {
+          "type": "string",
+          "format": "string"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "string"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "string"
+        },
+        "deleted_at": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    },
+    "ProductGETResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "format": "string"
+        },
+        "data": {
+          "$ref": "#/definitions/Product"
+        },
+        "message": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    },
+    "ProductPOSTResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "format": "string"
+        },
+        "error": {
+          "type": "string",
+          "format": "string"
+        },
+        "message": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    },
+    "ProductPUTResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "format": "string"
+        },
+        "error": {
+          "type": "string",
+          "format": "string"
+        },
+        "message": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    },
+    "ProductDELETEResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "format": "string"
+        },
+        "error": {
+          "type": "string",
+          "format": "string"
+        },
+        "message": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    },
+    "SearchResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "format": "string"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Product"
+          }
+        },
+        "error": {
+          "type": "string",
+          "format": "string"
+        },
+        "message": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    },
+    "GenerateDataResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "format": "string"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Product"
+          }
+        },
+        "error": {
+          "type": "string",
+          "format": "string"
+        },
+        "message": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    },
+    "TestResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "format": "string"
+        },
+        "uptime": {
+          "type": "number",
+          "format": "number"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "string"
+        }
+      }
+    }
+  }
+}
