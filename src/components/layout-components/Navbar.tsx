@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 export default function Navbar() {
   return (
     <nav
@@ -19,25 +21,19 @@ export default function Navbar() {
           text-green-kelp-50
         "
       >
-        <div className="text-lg">
-          Government of Canada
-        </div>
-        <div>
-          <button
-            className="
-              flex
-              items-center
-              text-white
-              p-2
-              rounded
-              focus:outline-none
-            "
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
-            </svg>
-          </button>
-        </div>
+        <Link href="/" className="text-lg flex justify-start items-center gap-1">
+          BC Gov
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-4 h-4">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+          </svg>
+          Ministry of Citizens
+        </Link>
+        <Link href="/api/api-doc" className="text-lg flex gap-2 justify-center items-center px-2 py-1 rounded-md hover:bg-green-kelp-700 transition-all duration-75">
+          API
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" />
+          </svg>
+        </Link>
       </div>
     </nav>
   )
