@@ -101,13 +101,13 @@ export default function Table({ state, fetchHelper}: TableProps) {
                         <td className="px-3 py-2 align-top border-[0.5px] first:border-l last:border-r border-neutral-300">
                           <div className="flex items-center gap-3 text-sm">
                             <button
-                              className="py-1 px-2 rounded-md bg-pampas-200 text-green-kelp-600 transition-all duration-75 hover:text-green-kelp-900 hover:bg-pampas-300"
+                              className="py-1 px-2 rounded-md bg-pampas-200 text-green-kelp-700 transition-all duration-75 hover:text-green-kelp-900 hover:bg-pampas-300"
                               onClick={() => handleEditProduct(product)}
                             >
                               Edit
                             </button>
                             <button
-                              className="py-1 px-2 rounded-md bg-red-200 text-red-600 hover:text-red-900 hover:bg-red-300"
+                              className="py-1 px-2 rounded-md bg-red-200 text-red-700 hover:text-red-900 hover:bg-red-300"
                               onClick={() => handleDeleteProduct(product.productId, product.productName)}
                             >
                               Delete

@@ -96,6 +96,7 @@ export default function Search({ dispatch, fetchProductData }: SearchProps) {
           />
         </div>
         <button
+          aria-label="search-button"
           className="flex items-center justify-center w-9 h-9 text-white bg-green-kelp-800 rounded-md focus:outline-none focus:ring-2 focus:ring-green-kelp-700 focus:ring-opacity-50 hover:bg-green-kelp-600 transition-all duration-75"
           onClick={() => handleSearch()}
         >
