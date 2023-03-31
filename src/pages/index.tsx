@@ -3,6 +3,7 @@ import Heading from "@/components/index-components/Heading";
 import Search from "@/components/index-components/Search";
 import Table from "@/components/index-components/Table";
 import { Product } from "@/types/types";
+import Head from "next/head";
 import { useEffect, useReducer, useState } from "react";
 import { Toaster, toast } from 'sonner';
 
@@ -188,6 +189,11 @@ export default function Home() {
   return (
     <div
       className="content max-w-screen-lg w-full mx-auto">
+      <Head>
+        <title>BC | IMB | Project Catalog</title>
+        <meta name="title" content="BC | IMB | Project Catalog" />
+        <meta name="description" content="An app that allows the BC Government Ministry of Citizen's Information Management Branch to manage their Product catalog of modern web applications." />
+      </Head>
       <Heading productCount={productCount} />
       <div className="flex justify-between gap-2 items-end flex-col sm:flex-row">
         <Search
