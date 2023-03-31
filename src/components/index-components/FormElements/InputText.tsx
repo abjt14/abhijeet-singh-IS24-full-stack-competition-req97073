@@ -1,3 +1,4 @@
+// defines the type of the props for the InputText component
 interface InputTextProps {
   value: string;
   setter: Function;
