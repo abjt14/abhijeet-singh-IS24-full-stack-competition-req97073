@@ -1,3 +1,4 @@
+// defines the product type
 export interface Product {
   productId: string;
   productName: string;
@@ -8,6 +9,7 @@ export interface Product {
   methodology: "Agile" | "Waterfall";
 }
 
+// desfines the product type as it is returned from the API
 export interface APIProduct extends Product {
   created_at: string | null;
   updated_at: string | null;

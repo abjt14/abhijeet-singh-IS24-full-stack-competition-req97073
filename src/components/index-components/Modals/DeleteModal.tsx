@@ -1,5 +1,6 @@
 import { Dialog } from '@headlessui/react';
 
+// defines the type of the props for the DeleteModal component
 interface DeleteModalProps {
   productId: string;
   productName: string;
@@ -10,14 +11,17 @@ interface DeleteModalProps {
 
 export default function DeleteModal({ productId, productName, fetchHelper, isOpen, setIsOpen }: DeleteModalProps) {
 
+  // handle the delete product request
   function confirmDelete() {
+    // send the delete request with the product id
     fetchHelper({
       method: 'DELETE',
       data: productId,
       productId: productId
     });
-    setIsOpen(false);
 
+    // close the modal
+    setIsOpen(false);
   }
 
   return (

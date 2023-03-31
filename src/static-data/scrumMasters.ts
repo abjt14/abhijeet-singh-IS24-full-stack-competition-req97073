@@ -1,3 +1,4 @@
+// defines the scrum master type for the static data
 export const scrumMasters: string[] = [
   "Emma Smith",
   "James Johnson",

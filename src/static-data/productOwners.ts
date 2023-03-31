@@ -1,3 +1,4 @@
+// defines the list of product owners for the static data
 export const productOwners: string[] = [
   'Emma Lee',
   'Marcus Chen',

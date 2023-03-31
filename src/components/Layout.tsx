@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Navbar from './layout-components/Navbar'
 import { ReactNode } from 'react'
 
+// defines the type of the props for the Layout component
 type LayoutProps = {
   children?: ReactNode
 }

@@ -1,3 +1,4 @@
+// defines a list of product names for the static data
 export const productNames: string[] = [
   'Connect',
   'Transit Tracker',

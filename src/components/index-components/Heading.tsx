@@ -1,3 +1,4 @@
+// defines the type of the props for the Heading component
 interface HeadingProps {
   productCount: number | string
 }

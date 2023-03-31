@@ -1,3 +1,4 @@
+// defines the responses for the api
 export const responses = {
   getData: {
     main: {

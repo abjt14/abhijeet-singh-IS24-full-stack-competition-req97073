@@ -1,3 +1,4 @@
+// defines the developer type for the static data
 export const developers: string[] = [
   'Adam Green',
   'Brian Miller',

@@ -1,3 +1,4 @@
+// defines the props for the InputDate component
 interface InputDateProps {
   value: string;
   setter: Function;
@@ -12,7 +13,7 @@ export default function InputDate({ value, setter, label }: InputDateProps) {
         type="date"
         name="productName"
         id="productName"
-        className="rounded-md px-4 py-2 text-sm text-green-kelp-900 bg-white border border-green-kelp-700 outline-green-kelp-900"
+        className="mt-1 rounded-md px-4 py-[.45rem] text-sm text-green-kelp-900 bg-white border border-green-kelp-700 outline-green-kelp-900"
         required={true}
         value={value}
         onChange={(e) => setter(e.target.value)}
